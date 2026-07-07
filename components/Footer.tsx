@@ -115,7 +115,7 @@ export default function Footer() {
 
         <div className="section-divider mb-6" />
         <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-charcoal-500 text-xs">
-          <p>© {new Date().getFullYear()} SHG Designs. A Sesigo Hive Group Brand. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} For The Hives, By Sesigo Hive Group . All rights reserved.</p>
           <p>Crafted with precision in Gaborone, Botswana 🇧🇼</p>
         </div>
       </div>
