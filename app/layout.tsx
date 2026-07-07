@@ -2,16 +2,20 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://shg-designs.netlify.app'),
   title: 'SHG Designs | Digital Infrastructure & Web Solutions',
   description:
     'SHG Designs - a Sesigo Hive Group brand, delivers premium websites, domains, business emails, payment gateways, and custom CMS solutions for forward-thinking businesses.',
-  keywords: ['web design', 'digital infrastructure', 'domains', 'business email', 'CMS', 'payment gateway', 'Botswana'],
+  keywords: ['web design', 'digital infrastructure', 'domains', 'business email', 'CMS', 'payment gateway', 'Botswana', 'Gaborone'],
   authors: [{ name: 'SHG Designs' }],
   openGraph: {
     title: 'SHG Designs | Digital Infrastructure & Web Solutions',
     description: 'Premium digital infrastructure for modern businesses.',
     type: 'website',
+    url: 'https://shg-designs.netlify.app',
+    siteName: 'SHG Designs',
   },
+  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
