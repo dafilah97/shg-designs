@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://shg-designs.netlify.app'),
+  metadataBase: new URL('https://sesigohivegroup.co.bw'),
   title: 'SHG Designs | Digital Infrastructure & Web Solutions',
   description:
     'SHG Designs - a Sesigo Hive Group brand, delivers premium websites, domains, business emails, payment gateways, and custom CMS solutions for forward-thinking businesses.',
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     title: 'SHG Designs | Digital Infrastructure & Web Solutions',
     description: 'Premium digital infrastructure for modern businesses.',
     type: 'website',
-    url: 'https://shg-designs.netlify.app',
+    url: 'https://sesigohivegroup.co.bw',
     siteName: 'SHG Designs',
   },
   robots: { index: true, follow: true },

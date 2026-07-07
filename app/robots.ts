@@ -3,6 +3,6 @@ import { MetadataRoute } from 'next'
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: '*', allow: '/', disallow: '/admin/' },
-    sitemap: 'https://shg-designs.netlify.app/sitemap.xml',
+    sitemap: 'https://sesigohivegroup.co.bw/sitemap.xml',
   }
 }
