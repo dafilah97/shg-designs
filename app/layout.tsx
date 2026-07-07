@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     siteName: 'SHG Designs',
   },
   robots: { index: true, follow: true },
+  verification: { google: 's3ZjUN-HYQmacQkS08v-Q3ta7c-_btqlfvYdkAsSvh0' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
