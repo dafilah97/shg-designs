@@ -17,10 +17,6 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true },
   verification: { google: 's3ZjUN-HYQmacQkS08v-Q3ta7c-_btqlfvYdkAsSvh0' },
-  icons: {
-    icon: '/logo.png',
-    apple: '/logo.png',
-  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

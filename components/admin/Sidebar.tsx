@@ -3,10 +3,17 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Hexagon, LayoutDashboard, LogOut, Menu, X, ExternalLink, ChevronRight } from 'lucide-react'
+import {
+  Hexagon, LayoutDashboard, FolderKanban, Settings,
+  MessageSquare, LogOut, Menu, X, ExternalLink, ChevronRight,
+} from 'lucide-react'
+import { createClient } from '@/lib/supabase'
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
+  { href: '/admin/projects', label: 'Projects', icon: FolderKanban },
+  { href: '/admin/content', label: 'Site Content', icon: Settings },
+  { href: '/admin/requests', label: 'Client Requests', icon: MessageSquare },
 ]
 
 export default function Sidebar() {
@@ -15,7 +22,8 @@ export default function Sidebar() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const handleLogout = async () => {
-    await fetch('/api/auth', { method: 'DELETE' })
+    const supabase = createClient()
+    await supabase.auth.signOut()
     router.push('/admin/login')
     router.refresh()
   }
@@ -25,6 +33,7 @@ export default function Sidebar() {
 
   const NavContent = () => (
     <div className="flex flex-col h-full">
+      {/* Logo */}
       <div className="px-6 py-5 border-b border-charcoal-800">
         <div className="flex items-center gap-2.5">
           <div className="relative">
@@ -38,6 +47,7 @@ export default function Sidebar() {
         </div>
       </div>
 
+      {/* Nav */}
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const Icon = item.icon
@@ -61,6 +71,7 @@ export default function Sidebar() {
         })}
       </nav>
 
+      {/* Footer */}
       <div className="px-3 py-4 border-t border-charcoal-800 space-y-2">
         <a
           href="/"
@@ -84,10 +95,12 @@ export default function Sidebar() {
 
   return (
     <>
+      {/* Desktop sidebar */}
       <aside className="hidden lg:flex flex-col w-64 bg-charcoal-900 border-r border-charcoal-800 h-screen sticky top-0">
         <NavContent />
       </aside>
 
+      {/* Mobile header bar */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-charcoal-900 border-b border-charcoal-800 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Hexagon className="w-7 h-7 text-amber-500 fill-amber-600/20" strokeWidth={1.5} />
@@ -98,6 +111,7 @@ export default function Sidebar() {
         </button>
       </div>
 
+      {/* Mobile drawer */}
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
           <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
