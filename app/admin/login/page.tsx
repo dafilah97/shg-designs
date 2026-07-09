@@ -2,12 +2,10 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Hexagon, Mail, Lock, LogIn, Loader2, Eye, EyeOff } from 'lucide-react'
-import { createClient } from '@/lib/supabase'
+import { Hexagon, Lock, LogIn, Loader2, Eye, EyeOff } from 'lucide-react'
 
 export default function AdminLogin() {
   const router = useRouter()
-  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPw, setShowPw] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -17,25 +15,26 @@ export default function AdminLogin() {
     e.preventDefault()
     setLoading(true)
     setError('')
-    const supabase = createClient()
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password })
-    if (authError) {
-      setError('Invalid credentials. Please try again.')
-      setLoading(false)
-    } else {
+    const res = await fetch('/api/auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    })
+    if (res.ok) {
       router.push('/admin')
       router.refresh()
+    } else {
+      setError('Invalid password. Please try again.')
+      setLoading(false)
     }
   }
 
   return (
     <div className="min-h-screen bg-charcoal-950 flex items-center justify-center px-4 relative overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 hex-bg opacity-40" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-900/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 w-full max-w-md">
-        {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2.5 mb-4">
             <div className="relative">
@@ -50,27 +49,11 @@ export default function AdminLogin() {
             </div>
           </div>
           <h1 className="font-display text-2xl font-bold text-white">Welcome back</h1>
-          <p className="text-charcoal-400 text-sm mt-1">Sign in to manage your site</p>
+          <p className="text-charcoal-400 text-sm mt-1">Enter your admin password to continue</p>
         </div>
 
-        {/* Card */}
         <div className="glass-dark rounded-2xl p-8 shadow-glass">
           <form onSubmit={handleLogin} className="space-y-5">
-            <div>
-              <label className="block text-charcoal-300 text-sm font-medium mb-1.5">Email Address</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3.5 w-4 h-4 text-charcoal-500" />
-                <input
-                  type="email"
-                  required
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="input-field pl-10"
-                  placeholder="admin@shgdesigns.co.bw"
-                />
-              </div>
-            </div>
             <div>
               <label className="block text-charcoal-300 text-sm font-medium mb-1.5">Password</label>
               <div className="relative">

@@ -1,15 +1,25 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase-server'
+import { cookies } from 'next/headers'
 
-export async function GET() {
-  const supabase = createClient()
-  const { data: { user }, error } = await supabase.auth.getUser()
-  if (error || !user) return NextResponse.json({ authenticated: false }, { status: 401 })
-  return NextResponse.json({ authenticated: true, email: user.email })
+export async function POST(request: Request) {
+  const { password } = await request.json()
+
+  if (!password || password !== process.env.ADMIN_PASSWORD) {
+    return NextResponse.json({ error: 'Invalid password.' }, { status: 401 })
+  }
+
+  cookies().set('admin_session', process.env.ADMIN_PASSWORD!, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 7,
+    path: '/',
+  })
+
+  return NextResponse.json({ ok: true })
 }
 
 export async function DELETE() {
-  const supabase = createClient()
-  await supabase.auth.signOut()
-  return NextResponse.json({ success: true })
+  cookies().delete('admin_session')
+  return NextResponse.json({ ok: true })
 }

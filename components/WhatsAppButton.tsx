@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-const WHATSAPP_NUMBER = '26771234567'
+const WHATSAPP_NUMBER = '26777338635'
 const WHATSAPP_MESSAGE = encodeURIComponent(
   'Hello SHG Designs, I would like to make a booking/request for your services.'
 )

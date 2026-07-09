@@ -1,9 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
-import { ExternalLink, BookOpen, Tag, Loader2 } from 'lucide-react'
-import { createClient } from '@/lib/supabase'
+import { ExternalLink, BookOpen, Tag } from 'lucide-react'
 import type { Project } from '@/lib/types'
 
 const CATEGORIES = ['All', 'Website', 'E-Commerce', 'CMS', 'Branding', 'Domain & Email']
@@ -90,32 +89,12 @@ const FALLBACK_PROJECTS: Project[] = [
 ]
 
 export default function Portfolio() {
-  const [projects, setProjects] = useState<Project[]>(FALLBACK_PROJECTS)
   const [activeCategory, setActiveCategory] = useState('All')
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const supabase = createClient()
-        const { data, error } = await supabase
-          .from('projects')
-          .select('*')
-          .order('created_at', { ascending: false })
-        if (!error && data && data.length > 0) setProjects(data)
-      } catch {
-        // fallback data already set
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchProjects()
-  }, [])
 
   const filtered =
     activeCategory === 'All'
-      ? projects
-      : projects.filter((p) => p.category === activeCategory)
+      ? FALLBACK_PROJECTS
+      : FALLBACK_PROJECTS.filter((p) => p.category === activeCategory)
 
   return (
     <section id="portfolio" className="section-pad bg-cream-50 relative overflow-hidden">
@@ -153,19 +132,13 @@ export default function Portfolio() {
         </div>
 
         {/* Grid */}
-        {loading ? (
-          <div className="flex justify-center py-20">
-            <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
-          </div>
-        ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
-        )}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
 
-        {filtered.length === 0 && !loading && (
+        {filtered.length === 0 && (
           <p className="text-center text-charcoal-400 py-16">No projects in this category yet.</p>
         )}
       </div>
